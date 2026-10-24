@@ -1,0 +1,47 @@
+# Anonymous visitors may use the public chat API. Fine grained channel
+# visibility and posting policies are enforced by the plugin itself.
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: halo-chat-role-anonymous
+  labels:
+    halo.run/role-template: "true"
+    halo.run/hidden: "true"
+    rbac.authorization.halo.run/aggregate-to-anonymous: "true"
+rules:
+  - apiGroups: ["api.chat.halo.run"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+# Every signed-in Halo user may chat.
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: halo-chat-role-authenticated
+  labels:
+    halo.run/role-template: "true"
+    halo.run/hidden: "true"
+    rbac.authorization.halo.run/aggregate-to-authenticated: "true"
+rules:
+  - apiGroups: ["api.chat.halo.run"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+# Assignable role template for chat administrators. Super admins already have
+# every permission; assign this template to a custom role to delegate chat
+# management without granting the super role.
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: halo-chat-role-manage
+  labels:
+    halo.run/role-template: "true"
+  annotations:
+    rbac.authorization.halo.run/module: "聊天"
+    rbac.authorization.halo.run/display-name: "聊天管理"
+    rbac.authorization.halo.run/ui-permissions: |
+      ["plugin:chat:view", "plugin:chat:manage"]
+rules:
+  - apiGroups: ["console.api.chat.halo.run"]
+    resources: ["*"]
+    verbs: ["*"]

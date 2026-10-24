@@ -1,0 +1,86 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: halo-chat-settings
+spec:
+  forms:
+    - group: general
+      label: 基础设置
+      formSchema:
+        - $formkit: checkbox
+          name: guestEnabled
+          label: 允许游客聊天
+          value: true
+          help: 关闭后，仅登录用户可以查看和发送消息；游客仍可浏览公开频道。
+        - $formkit: checkbox
+          name: guestUploadEnabled
+          label: 允许游客上传文件
+          value: false
+          help: 出于安全考虑，默认只允许登录用户上传文件。
+        - $formkit: number
+          name: guestNameMaxLength
+          label: 游客昵称最大长度
+          value: 20
+          min: 1
+          max: 60
+          step: 1
+          validation: required
+        - $formkit: number
+          name: messageMaxLength
+          label: 单条消息最大长度
+          value: 2000
+          min: 1
+          max: 20000
+          step: 1
+          validation: required
+        - $formkit: number
+          name: guestRateLimit
+          label: 游客每分钟消息数
+          value: 20
+          min: 0
+          step: 1
+          help: 0 表示不限制。
+        - $formkit: number
+          name: userRateLimit
+          label: 登录用户每分钟消息数
+          value: 120
+          min: 0
+          step: 1
+          help: 0 表示不限制。
+    - group: files
+      label: 文件设置
+      formSchema:
+        - $formkit: number
+          name: maxFileSizeMb
+          label: 单文件大小上限（MB）
+          value: 100
+          min: 0
+          step: 1
+          help: 0 表示不限制。
+        - $formkit: number
+          name: maxTotalSizeMb
+          label: 插件总存储上限（MB）
+          value: 1024
+          min: 0
+          step: 1
+          help: 0 表示不限制。
+        - $formkit: number
+          name: expireDays
+          label: 文件过期天数
+          value: 0
+          min: 0
+          step: 1
+          help: 0 表示永不过期。到期后文件与消息中的附件会自动清理。
+    - group: composer
+      label: 输入方式
+      formSchema:
+        - $formkit: select
+          name: mode
+          label: 消息输入组件
+          value: BUILTIN
+          options:
+            - label: 插件自带输入框
+              value: BUILTIN
+            - label: 嵌入 Halo 评论组件（需安装官方评论组件插件）
+              value: HALO_COMMENT
+          help: 选择评论组件时，聊天页会嵌入官方评论组件的编辑框；登录用户自动使用账号昵称与头像，游客使用评论组件自带的昵称输入。未安装评论组件插件或游客匿名评论未开启时会自动回退到插件自带输入框。

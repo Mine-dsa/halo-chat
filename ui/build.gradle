@@ -1,0 +1,63 @@
+plugins {
+    id 'base'
+}
+
+group 'run.halo.chat.ui'
+
+// The upstream node-gradle plugin's pnpm bootstrap is broken on this machine
+// (corepack installs a pnpm distribution without the win32-x64 native binary),
+// so invoke the pnpm available on PATH with a thin Exec wrapper instead.
+// CI keeps working as long as Node 22.12+ and pnpm 10 are installed, which the
+// plugin's reusable CI workflow already provides.
+
+def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+
+tasks.register('pnpmInstall', Exec) {
+    group = 'build'
+    description = 'Install UI dependencies using pnpm'
+    workingDir layout.projectDirectory
+    if (isWindows) {
+        commandLine 'cmd', '/c', 'pnpm', 'install'
+    } else {
+        commandLine 'pnpm', 'install'
+    }
+    inputs.files(fileTree(dir: layout.projectDirectory, includes: ['package.json', 'pnpm-lock.yaml', '.npmrc']))
+}
+
+tasks.register('pnpmBuild', Exec) {
+    group = 'build'
+    description = 'Build the console and standalone UI bundles using pnpm'
+    dependsOn tasks.named('pnpmInstall')
+    workingDir layout.projectDirectory
+    if (isWindows) {
+        commandLine 'cmd', '/c', 'pnpm', 'build'
+    } else {
+        commandLine 'pnpm', 'build'
+    }
+    inputs.dir(layout.projectDirectory.dir('src'))
+    inputs.files(fileTree(
+        dir: layout.projectDirectory,
+        includes: ['*.cjs', '*.ts', '*.js', '*.json', '*.yaml', '.npmrc']))
+    outputs.dir(layout.buildDirectory.dir('dist'))
+    outputs.dir(layout.buildDirectory.dir('web'))
+}
+
+tasks.register('pnpmCheck', Exec) {
+    group = 'verification'
+    description = 'Run unit tests for the UI project using pnpm'
+    dependsOn tasks.named('pnpmInstall')
+    workingDir layout.projectDirectory
+    if (isWindows) {
+        commandLine 'cmd', '/c', 'pnpm', 'test:unit'
+    } else {
+        commandLine 'pnpm', 'test:unit'
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('pnpmCheck')
+}
+
+tasks.named('assemble') {
+    dependsOn tasks.named('pnpmBuild')
+}

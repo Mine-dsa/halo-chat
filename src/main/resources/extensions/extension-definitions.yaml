@@ -1,0 +1,9 @@
+apiVersion: plugin.halo.run/v1alpha1
+kind: ExtensionDefinition
+metadata:
+  name: halo-chat-channel-comment-subject
+spec:
+  className: run.halo.chat.comment.ChatChannelCommentSubject
+  extensionPointName: comment-subject
+  displayName: "聊天频道评论主体"
+  description: "允许 Halo 评论组件以聊天频道作为评论主体，从而实现评论组件输入模式。"
