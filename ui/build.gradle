@@ -2,7 +2,7 @@ plugins {
     id 'base'
 }
 
-group 'run.halo.chat.ui'
+group 'cc.minedsa.halochat.ui'
 
 // The upstream node-gradle plugin's pnpm bootstrap is broken on this machine
 // (corepack installs a pnpm distribution without the win32-x64 native binary),
