@@ -8,11 +8,11 @@ spec:
   enabled: true
   requires: ">=2.27.0"
   author:
-    name: Halo Chat
-    website: https://www.halo.run
+    name: mine-dsa
+    website: https://minedsa.cc
   logo: logo.svg
-  homepage: https://www.halo.run
-  displayName: "聊天"
+  homepage: https://github.com/Mine-dsa/halo-chat
+  displayName: "聊天频道"
   description: "为 Halo 提供 QQ / 微信风格的站内聊天：公共频道、群组、话题、游客昵称发言、文件传输与完整的后台聊天管理。"
   settingName: halo-chat-settings
   configMapName: halo-chat-configmap

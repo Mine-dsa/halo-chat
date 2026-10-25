@@ -1,4 +1,6 @@
-# halo-chat · Halo 聊天插件
+# halo-chat · 聊天频道（mine-dsa）
+
+作者：mine-dsa · 项目主页：https://github.com/Mine-dsa/halo-chat · 个人主页：https://minedsa.cc
 
 为 Halo 2.27+ 提供 QQ / 微信风格的站内聊天能力。插件同时提供 **Console 侧边栏聊天页、聊天管理页** 和 **前台独立聊天页**，支持公共频道、群组/话题、游客昵称发言、文件传输与配额、公告、管理员代发/编辑/删除消息，以及可切换的「Halo 官方评论组件」输入模式。
 
@@ -51,23 +53,23 @@
 
 Console 聊天（侧边栏包含新建入口）：
 
-![Console 聊天](docs/screenshots/console-chat.png)
+![Console 聊天](docs/screenshots/marketplace/01-console-chat.png)
 
 新建群组 / 话题弹窗：
 
-![新建群组 / 话题](docs/screenshots/console-create-channel.png)
+![新建群组 / 话题](docs/screenshots/marketplace/02-console-create-channel.png)
 
 Console 聊天管理：
 
-![Console 聊天管理](docs/screenshots/console-admin.png)
+![Console 聊天管理](docs/screenshots/marketplace/04-admin-overview.png)
 
 前台公开聊天页（游客昵称发言）：
 
-![前台公开聊天页](docs/screenshots/public-chat.png)
+![前台公开聊天页](docs/screenshots/marketplace/10-public-chat.png)
 
 游客昵称弹窗：
 
-![游客昵称](docs/screenshots/guest-nickname-dialog.png)
+![游客昵称](docs/screenshots/marketplace/11-public-guest-dialog.png)
 
 ## 安装
 
@@ -109,7 +111,7 @@ Windows 本机环境（JDK 路径、HTTPS 证书信任、pnpm 存储目录）已
 ### 目录结构
 
 ```
-src/main/java/run/halo/chat/
+src/main/java/cc/minedsa/halochat/
   ChatPlugin.java             插件生命周期（注册模型、公共频道、密钥、配额初始化）
   extension/                  自定义模型：ChatChannel / ChatMessage / ChatFile / ChatGuest
   endpoint/                   公共 API、管理 API、前台页面路由
